@@ -1,10 +1,12 @@
-package com.cinema.cintix;
+package com.cinema.cintix.AppStarts;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import com.cinema.cintix.R;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
