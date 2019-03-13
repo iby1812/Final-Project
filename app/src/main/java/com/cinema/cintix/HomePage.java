@@ -1,12 +1,13 @@
 package com.cinema.cintix;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.cinema.cintix.AppStarts.LoginActivity;
 
-public class Main extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class HomePage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

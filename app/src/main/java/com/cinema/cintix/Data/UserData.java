@@ -1,6 +1,4 @@
 package com.cinema.cintix.Data;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UserData {

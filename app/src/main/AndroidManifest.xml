@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Main" />
+        <activity android:name=".HomePage" />
         <activity android:name=".AppStarts.LoginActivity" />
 
         <!-- Facebook -->

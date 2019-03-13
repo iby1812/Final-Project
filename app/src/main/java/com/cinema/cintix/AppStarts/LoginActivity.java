@@ -4,26 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
 import com.cinema.cintix.Data.UserData;
-import com.cinema.cintix.Main;
+import com.cinema.cintix.HomePage;
 import com.cinema.cintix.R;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,17 +24,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-
         initFacebookLoginButton();
     }
 
     private void initFacebookLoginButton() {
 
         callbackManager = CallbackManager.Factory.create();
-        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        final ArrayList<String> f = null;
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_friends"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -55,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                             user.setName(profile.getName());
                             user.setId(profile.getId());
                         }
-                        Intent i = new Intent(LoginActivity.this, Main.class);
+                        Intent i = new Intent(LoginActivity.this, HomePage.class);
                         startActivity(i);
                         finish();
                     }
