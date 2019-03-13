@@ -11,15 +11,16 @@
         android:roundIcon="@mipmap/ic_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <!--welcome page-->
         <activity android:name=".AppStarts.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <!--home page-->
         <activity android:name=".HomePage" />
+        <!--login page pass you to facebook-->
         <activity android:name=".AppStarts.LoginActivity" />
 
         <!-- Facebook -->
