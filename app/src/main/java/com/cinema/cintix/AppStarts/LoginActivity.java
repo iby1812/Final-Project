@@ -2,8 +2,6 @@ package com.cinema.cintix.AppStarts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import com.cinema.cintix.Data.UserData;
 import com.cinema.cintix.HomePage;
 import com.cinema.cintix.R;
@@ -15,15 +13,17 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import java.util.Arrays;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class LoginActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     //only for testing need to be deleted and pass the data to server
     public static final UserData user = new UserData();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_layout);
+        setContentView(R.layout.splash_layout);
         initFacebookLoginButton();
     }
 
@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                             user.setId(profile.getId());
                         }
                         Intent i = new Intent(LoginActivity.this, HomePage.class);
+                        i.putExtra("user",user.getName());
                         startActivity(i);
                         finish();
                     }

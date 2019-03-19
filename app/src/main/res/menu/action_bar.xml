@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action1"
-        android:checkable="true"
-        android:title="action1"/>
+        android:title="action1"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
     <item
         android:id="@+id/action2"
-        android:checkable="true"
-        android:title="action2"/>
+        android:title="action2"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
     <item
         android:id="@+id/action3"
-        android:checkable="true"
-        android:title="action3"/>
+        android:title="action3"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
 </menu>

@@ -9,8 +9,8 @@
         android:icon="@mipmap/ic_app"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_app"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:supportsRtl="true">
         <!--welcome page-->
         <activity android:name=".AppStarts.SplashActivity">
             <intent-filter>
