@@ -1,32 +1,40 @@
 package com.cinema.cintix;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.cinema.cintix.bottomnavigation.NavigationAdapter;
+import com.cinema.cintix.bottomnavigation.QuickOrder;
+import com.cinema.cintix.bottomnavigation.RegularOrder;
+import com.cinema.cintix.bottomnavigation.SmartOrder;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    TextView user;
-    DrawerLayout drawerLayout;
+    private TextView user;
+    private DrawerLayout drawerLayout;
+    private BottomNavigationView mnav;
+    private FrameLayout frameLayout;
+    private QuickOrder quickOrder = new QuickOrder();
+    private RegularOrder regularOrder = new RegularOrder();
+    private SmartOrder smartOrder = new SmartOrder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        settoolbar();
-        setbottomtoolbar();
+        SetToolbar();
+        SetBottomNavigator();
     }
 
 
@@ -62,7 +70,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else super.onBackPressed();
     }
 
-    private void settoolbar() {
+    private void SetToolbar() {
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
         NavigationView navigationView = findViewById(R.id.navigation);
@@ -78,60 +86,39 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         View header = navigationView.getHeaderView(0);
-        user = (TextView) header.findViewById(R.id.info);
+        user =  header.findViewById(R.id.info);
         user.setText(user.getText() + " " + getIntent().getExtras().getString("user"));
     }
 
-    private void setbottomtoolbar() {
-        Toolbar toolbar =  findViewById(R.id.bottom_tool_bar);
-        setSupportActionBar(toolbar);
+    private void SetBottomNavigator() {
+        mnav=findViewById(R.id.bottom_nav);
+        frameLayout=findViewById(R.id.frame);
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        final ViewPager viewPager = findViewById(R.id.pager);
-        final NavigationAdapter adapter = new NavigationAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                switch(menuItem.getItemId()){
+                    case R.id.quick_order:
+                        SetFragment(quickOrder);
+                        return true;
+                    case R.id.regular_order:
+                        SetFragment(regularOrder);
+                        return true;
+                    case R.id.smart_order:
+                        SetFragment(smartOrder);
+                        return true;
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
+                    default:
+                        return false;
+                }
             }
         });
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-/*
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-*/
-
-        return super.onOptionsItemSelected(item);
+    private void SetFragment(Fragment frag){
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame,frag);
+        fragmentTransaction.commit();
     }
 }
 

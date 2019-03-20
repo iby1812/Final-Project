@@ -2,9 +2,9 @@ package com.cinema.cintix.startingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.cinema.cintix.data.UserData;
 import com.cinema.cintix.HomePage;
 import com.cinema.cintix.R;
+import com.cinema.cintix.data.UserData;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LoginActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     //only for testing need to be deleted and pass the data to server
-    public static final UserData user = new UserData();
+     UserData user = new UserData();
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
