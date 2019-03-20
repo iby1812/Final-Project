@@ -1,11 +1,9 @@
 package com.cinema.cintix;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-
-import com.cinema.cintix.AppStarts.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +12,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    TextView info;
     TextView user;
     DrawerLayout drawerLayout;
 
@@ -23,27 +20,25 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar mToolbar =  findViewById(R.id.toolbar);
+        NavigationView navigationView = findViewById(R.id.navigation);
+        drawerLayout = findViewById(R.id.drawer_layout);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        user = findViewById(R.id.user_name);
-        info = findViewById(R.id.info);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.navigation);
+
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this,drawerLayout,mToolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        View header = navigationView.getHeaderView(0);
+        user = (TextView) header.findViewById(R.id.info);
+        user.setText(user.getText()+ " " + getIntent().getExtras().getString("user"));
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        String item =(String) menuItem.getTitle();
-        info.setText(item);
-        if(getIntent().getExtras() != null && getIntent().getExtras().getString("user")!= null) {
-            user.setText(getIntent().getExtras().getString("user"));
-        }
         closeDrawer();
         switch(menuItem.getItemId()){
             case R.id.action1:
