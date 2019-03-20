@@ -1,4 +1,4 @@
-package com.cinema.cintix.AppStarts;
+package com.cinema.cintix.startingapp;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;

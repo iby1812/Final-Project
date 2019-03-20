@@ -1,8 +1,8 @@
-package com.cinema.cintix.AppStarts;
+package com.cinema.cintix.startingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.cinema.cintix.Data.UserData;
+import com.cinema.cintix.data.UserData;
 import com.cinema.cintix.HomePage;
 import com.cinema.cintix.R;
 import com.facebook.CallbackManager;

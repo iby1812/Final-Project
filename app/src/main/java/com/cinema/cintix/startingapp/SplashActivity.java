@@ -1,4 +1,4 @@
-package com.cinema.cintix.AppStarts;
+package com.cinema.cintix.startingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
