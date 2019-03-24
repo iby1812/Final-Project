@@ -5,4 +5,9 @@
     <string name="fb_login_protocol_scheme">fb640391139716575</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="smart_order">הזמנה חכמה</string>
+    <string name="regular_order">כל הסרטים</string>
+    <string name="quick_order">דקה 90</string>
+    <string name="hello_user">שלום,</string>
+
 </resources>

@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/quick_order"
-        android:title="Quick Order"
+        android:title="@string/quick_order"
         android:textSize="30sp"
         android:textStyle="bold"/>
     <item
         android:id="@+id/regular_order"
-        android:title="Regular Order"
+        android:title="@string/regular_order"
         android:textSize="30sp"
         android:textStyle="bold"/>
     <item
         android:id="@+id/smart_order"
-        android:title="Smart Order"
+        android:title="@string/smart_order"
         android:textSize="30sp"
         android:textStyle="bold"/>
 </menu>
