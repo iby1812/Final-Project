@@ -92,7 +92,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private void SetBottomNavigator() {
         mnav=findViewById(R.id.bottom_nav);
         frameLayout=findViewById(R.id.frame);
-
+        mnav.getMenu().getItem(1).setChecked(true);
         mnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {

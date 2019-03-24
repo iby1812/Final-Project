@@ -9,7 +9,8 @@
         android:id="@+id/regular_order"
         android:title="@string/regular_order"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:checked="true"/>
     <item
         android:id="@+id/smart_order"
         android:title="@string/smart_order"
