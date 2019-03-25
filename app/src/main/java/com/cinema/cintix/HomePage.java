@@ -1,5 +1,9 @@
 package com.cinema.cintix;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInstaller;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -9,8 +13,15 @@ import android.widget.TextView;
 import com.cinema.cintix.bottomnavigation.QuickOrder;
 import com.cinema.cintix.bottomnavigation.RegularOrder;
 import com.cinema.cintix.bottomnavigation.SmartOrder;
+import com.cinema.cintix.startingapp.LoginActivity;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.File;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,6 +54,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         switch (menuItem.getItemId()) {
             case R.id.action1:
                 //add new activity
+                finish();
                 break;
             case R.id.action2:
                 //add new activity

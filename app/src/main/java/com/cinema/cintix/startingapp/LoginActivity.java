@@ -2,61 +2,95 @@ package com.cinema.cintix.startingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+
 import com.cinema.cintix.HomePage;
 import com.cinema.cintix.R;
 import com.cinema.cintix.data.UserData;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.LoggingBehavior;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.facebook.login.LoginBehavior.DEVICE_AUTH;
+
 public class LoginActivity extends AppCompatActivity {
-    CallbackManager callbackManager;
+    private CallbackManager callbackManager;
+    private FacebookCallback<LoginResult> mFacebookCallback;
+    private LoginButton logfb;
+    private ProfileTracker mProfileTracker;
     //only for testing need to be deleted and pass the data to server
-     UserData user = new UserData();
+    UserData user = new UserData();
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
         initFacebookLoginButton();
     }
 
     private void initFacebookLoginButton() {
-
+        logfb = findViewById(R.id.log_fb);
+        logfb.setVisibility(View.VISIBLE);
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Profile profile=Profile.getCurrentProfile();
-                        if(profile!=null) {
-                            user.setName(profile.getName());
-                            user.setId(profile.getId());
-                        }
-                        Intent i = new Intent(LoginActivity.this, HomePage.class);
-                        i.putExtra("user",user.getName());
-                        startActivity(i);
-                        finish();
-                    }
+        logfb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                GraphRequest request = GraphRequest.newMeRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object, GraphResponse response) {
+                                // Application code
+                                try {
+                                    user.setName(object.getString("name"));
+                                    NextActivity();
+                                } catch (JSONException e) {
 
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
 
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                });
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+
+        });
+        logfb.setLoginBehavior(LoginBehavior.WEB_ONLY);
+        logfb.setReadPermissions("public_profile");
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -64,4 +98,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private void NextActivity() {
+        Intent i = new Intent(LoginActivity.this, HomePage.class);
+        i.putExtra("user", user.getName());
+        startActivity(i);
+        finish();
+    }
 }
