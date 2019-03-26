@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,11 +42,9 @@ import static com.facebook.login.LoginBehavior.DEVICE_AUTH;
 
 public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
-    private FacebookCallback<LoginResult> mFacebookCallback;
     private LoginButton logfb;
-    private ProfileTracker mProfileTracker;
     //only for testing need to be deleted and pass the data to server
-    public static UserData user = new UserData();
+    UserData user = new UserData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initFacebookLoginButton() {
         callbackManager = CallbackManager.Factory.create();
         if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logInWithReadPermissions(this, Collections.singleton("public_profile"));
             NextActivity();
         } else {
             logfb = findViewById(R.id.log_fb);
@@ -101,18 +101,20 @@ public class LoginActivity extends AppCompatActivity {
                             user.setName(object.getString("name"));
                             user.setId(object.getString("id"));
                             Intent i = new Intent(LoginActivity.this, HomePage.class);
-                            user.setImage(new URL("http://graph.facebook.com/" + user.getId() + "/picture?type=large"));
+                            user.setImage(new URL("https://graph.facebook.com/" + user.getId() + "/picture?type=normal"));
                             i.putExtra("user", user.getName());
+                            i.putExtra("id", user.getId());
+                            i.putExtra("url",user.getImage().toString());
                             startActivity(i);
                             finish();
                         } catch (JSONException e) {
                         } catch (MalformedURLException e) {
-                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,link");
+        parameters.putString("fields", "id,name,link,picture");
         request.setParameters(parameters);
         request.executeAsync();
     }

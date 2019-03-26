@@ -3,6 +3,8 @@ package com.cinema.cintix;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -10,16 +12,28 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.cinema.cintix.bottomnavigation.QuickOrder;
 import com.cinema.cintix.bottomnavigation.RegularOrder;
 import com.cinema.cintix.bottomnavigation.SmartOrder;
 import com.cinema.cintix.startingapp.LoginActivity;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
+import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +48,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private DrawerLayout drawerLayout;
     private BottomNavigationView mnav;
     private FrameLayout frameLayout;
-    private CircleImageView img;
+    private CircleImageView profilePictureView;
     private QuickOrder quickOrder = new QuickOrder();
     private RegularOrder regularOrder = new RegularOrder();
     private SmartOrder smartOrder = new SmartOrder();
@@ -95,16 +109,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         setSupportActionBar(mToolbar);
         navigationView.setNavigationItemSelectedListener(this);
         final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
+                this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if(drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     frameLayout.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     frameLayout.setVisibility(View.GONE);
                 }
                 super.onDrawerSlide(drawerView, slideOffset);
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 frameLayout.setVisibility(View.VISIBLE);
@@ -119,24 +134,30 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
         View header = navigationView.getHeaderView(0);
-        user =  header.findViewById(R.id.info);
-        img = findViewById(R.id.user_image);
+        user = header.findViewById(R.id.info);
+        profilePictureView = header.findViewById(R.id.user_image);
         user.setText(user.getText() + "  " + getIntent().getExtras().getString("user") + "\n");
-        try {
-            Bitmap mIcon1 = BitmapFactory.decodeStream(LoginActivity.user.getImage().openConnection().getInputStream());
-            img.setImageBitmap(mIcon1);
-        }catch (IOException e){}
+        String imageUri = getIntent().getStringExtra("url");
+        Picasso.get().load(imageUri).into(profilePictureView);
+        //BitmapDrawable drawable = (BitmapDrawable) profilePictureView.getDrawableState();
+        //Bitmap bitmap = drawable.getBitmap();
+        /*ImageView fbImage = ( ( ImageView)profilePictureView.getChildAt( 0));
+        Bitmap    bitmap  = ( ( BitmapDrawable) fbImage.getDrawable()).getBitmap();
+        circleImageView.setImageBitmap(bitmap);*/
+
+
     }
 
     private void SetBottomNavigator() {
-        mnav=findViewById(R.id.bottom_nav);
-        frameLayout=findViewById(R.id.frame);
+        mnav = findViewById(R.id.bottom_nav);
+        frameLayout = findViewById(R.id.frame);
         mnav.getMenu().getItem(1).setChecked(true);
         mnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch(menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.quick_order:
                         SetFragment(quickOrder);
                         return true;
@@ -154,9 +175,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-    private void SetFragment(Fragment frag){
-        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame,frag);
+    private void SetFragment(Fragment frag) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, frag);
         fragmentTransaction.commit();
     }
 
