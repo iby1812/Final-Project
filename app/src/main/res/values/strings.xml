@@ -1,13 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">CinTix</string>
+    <string name="app_name"><u>CinTix</u></string>
 
     <string name="facebook_app_id" tools:ignore="ExtraTranslation">640391139716575</string>
     <string name="fb_login_protocol_scheme">fb640391139716575</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
-    <string name="smart_order">הזמנה חכמה</string>
-    <string name="regular_order">כל הסרטים</string>
+    <string name="smart_order">רק בשבילך</string>
+    <string name="regular_order">סרטים</string>
     <string name="quick_order">דקה 90</string>
     <string name="hello_user">שלום,</string>
+    <string name="log_out">התנתק</string>
 
 </resources>

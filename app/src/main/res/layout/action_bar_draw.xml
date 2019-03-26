@@ -15,5 +15,6 @@
         android:layout_alignParentRight="true"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:text="@string/hello_user"/>
+        android:text="@string/hello_user"
+        android:textColor="@android:color/white"/>
 </RelativeLayout>

@@ -5,15 +5,22 @@
         android:id="@+id/action1"
         android:title="action1"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
     <item
         android:id="@+id/action2"
         android:title="action2"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
     <item
         android:id="@+id/action3"
         android:title="action3"
         android:textSize="30sp"
         android:textStyle="bold"/>
+    <item
+        android:id="@+id/log_out"
+        android:title="@string/log_out"
+        android:icon="@drawable/ic_log_out"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        />
 </menu>

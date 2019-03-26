@@ -49,48 +49,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initFacebookLoginButton() {
-        logfb = findViewById(R.id.log_fb);
-        logfb.setVisibility(View.VISIBLE);
         callbackManager = CallbackManager.Factory.create();
-        logfb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                GraphRequest request = GraphRequest.newMeRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object, GraphResponse response) {
-                                // Application code
-                                try {
-                                    user.setName(object.getString("name"));
-                                    NextActivity();
-                                } catch (JSONException e) {
+        if(AccessToken.getCurrentAccessToken()!=null){
+            NextActivity();
+        }else {
+            logfb = findViewById(R.id.log_fb);
+            logfb.setVisibility(View.VISIBLE);
+            logfb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    NextActivity();
+                }
+                @Override
+                public void onCancel() {
+                    // App code
+                }
 
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
+                @Override
+                public void onError(FacebookException exception) {
+                    // App code
+                }
 
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-
-        });
-        logfb.setLoginBehavior(LoginBehavior.WEB_ONLY);
-        logfb.setReadPermissions("public_profile");
+            });
+            logfb.setLoginBehavior(LoginBehavior.WEB_ONLY);
+            logfb.setReadPermissions("public_profile");
+        }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,9 +83,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void NextActivity() {
-        Intent i = new Intent(LoginActivity.this, HomePage.class);
-        i.putExtra("user", user.getName());
-        startActivity(i);
-        finish();
-    }
+            GraphRequest request = GraphRequest.newMeRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(
+                                JSONObject object, GraphResponse response) {
+                            // Application code
+                            try {
+                                user.setName(object.getString("name"));
+                                Intent i = new Intent(LoginActivity.this, HomePage.class);
+                                i.putExtra("user", user.getName());
+                                startActivity(i);
+                                finish();
+                            } catch (JSONException e) {
+
+                            }
+                        }
+                    });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,link");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+
 }

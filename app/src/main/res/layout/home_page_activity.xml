@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_color"
     android:layoutDirection="rtl">
 
     <androidx.appcompat.widget.Toolbar
@@ -10,20 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/colortoolsbar"
         android:layoutDirection="rtl"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:minHeight="?attr/actionBarSize">
 
         <TextView
             android:id="@+id/toolbar_title"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginLeft="5dp"
             android:text="@string/app_name"
-            android:textColor="@android:color/black" />
+            android:textSize="30sp"
+            android:textStyle="bold|italic"
+            android:textColor="@android:color/white" />
     </androidx.appcompat.widget.Toolbar>
 
 
@@ -40,7 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             app:headerLayout="@layout/action_bar_draw"
-            app:menu="@menu/action_bar" />
+            app:itemTextColor="@android:color/white"
+            app:itemIconTint="@android:color/white"
+            app:menu="@menu/action_bar"
+            android:background="@color/white_alpha"
+            android:theme="@style/AppTheme"/>
     </androidx.drawerlayout.widget.DrawerLayout>
 
     <FrameLayout
@@ -56,8 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colortoolsbar"
         app:itemTextAppearanceActive="@style/TextStyleBNV"
         app:itemTextAppearanceInactive="@style/txtnav"
+        app:itemTextColor="@drawable/bottom_navigation_colors"
         app:menu="@menu/bottom_navigator"></com.google.android.material.bottomnavigation.BottomNavigationView>
 </RelativeLayout>

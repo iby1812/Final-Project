@@ -1,12 +1,11 @@
 package com.cinema.cintix;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInstaller;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -14,13 +13,9 @@ import com.cinema.cintix.bottomnavigation.QuickOrder;
 import com.cinema.cintix.bottomnavigation.RegularOrder;
 import com.cinema.cintix.bottomnavigation.SmartOrder;
 import com.cinema.cintix.startingapp.LoginActivity;
-import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-
-import java.io.File;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +36,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.home_page_activity);
         SetToolbar();
         SetBottomNavigator();
         SetFragment(regularOrder);
@@ -54,13 +49,18 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         switch (menuItem.getItemId()) {
             case R.id.action1:
                 //add new activity
-                finish();
                 break;
             case R.id.action2:
                 //add new activity
                 break;
             case R.id.action3:
                 //add new activity
+                break;
+            case R.id.log_out:
+                LoginManager.getInstance().logOut();
+                Intent login = new Intent(this, LoginActivity.class);
+                startActivity(login);
+                finish();
                 break;
         }
         return true;
@@ -82,7 +82,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void SetToolbar() {
-
         Toolbar mToolbar = findViewById(R.id.toolbar);
         NavigationView navigationView = findViewById(R.id.navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -90,15 +89,36 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+        final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if(drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    frameLayout.setVisibility(View.VISIBLE);
+                }else {
+                    frameLayout.setVisibility(View.GONE);
+                }
+                super.onDrawerSlide(drawerView, slideOffset);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                frameLayout.setVisibility(View.VISIBLE);
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                frameLayout.setVisibility(View.GONE);
+                super.onDrawerOpened(drawerView);
+            }
+        };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         View header = navigationView.getHeaderView(0);
         user =  header.findViewById(R.id.info);
-        user.setText(user.getText() + " " + getIntent().getExtras().getString("user"));
+        user.setText(user.getText() + "  " + getIntent().getExtras().getString("user") + "\n");
     }
 
     private void SetBottomNavigator() {

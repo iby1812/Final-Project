@@ -20,7 +20,7 @@
         </activity>
         <!--home page-->
         <activity android:name=".HomePage" />
-        <!--login page pass you to facebook-->
+        <!--login with facebook-->
         <activity android:name=".startingapp.LoginActivity" />
 
         <!-- Facebook -->
