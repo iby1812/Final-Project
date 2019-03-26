@@ -68,6 +68,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     private void closeDrawer() {
         drawerLayout.closeDrawer(Gravity.RIGHT);
+        frameLayout.setVisibility(View.VISIBLE);
     }
 
     private void openDrawer() {
@@ -87,8 +88,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         navigationView.setNavigationItemSelectedListener(this);
         final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close){
@@ -150,6 +149,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame,frag);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        closeDrawer();
+        return super.dispatchTouchEvent(ev);
     }
 }
 
