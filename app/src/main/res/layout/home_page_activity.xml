@@ -39,12 +39,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginLeft="-64dp"
             app:headerLayout="@layout/action_bar_draw"
             app:itemTextColor="@android:color/white"
             app:itemIconTint="@android:color/white"
             app:menu="@menu/action_bar"
             android:background="@color/white_alpha"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
     </androidx.drawerlayout.widget.DrawerLayout>
 
     <FrameLayout

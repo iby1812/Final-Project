@@ -1,6 +1,8 @@
 package com.cinema.cintix;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -17,18 +19,22 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.IOException;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private TextView user;
     private DrawerLayout drawerLayout;
     private BottomNavigationView mnav;
     private FrameLayout frameLayout;
+    private CircleImageView img;
     private QuickOrder quickOrder = new QuickOrder();
     private RegularOrder regularOrder = new RegularOrder();
     private SmartOrder smartOrder = new SmartOrder();
@@ -86,7 +92,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         Toolbar mToolbar = findViewById(R.id.toolbar);
         NavigationView navigationView = findViewById(R.id.navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
-
         setSupportActionBar(mToolbar);
         navigationView.setNavigationItemSelectedListener(this);
         final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
@@ -100,7 +105,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 }
                 super.onDrawerSlide(drawerView, slideOffset);
             }
-
             @Override
             public void onDrawerClosed(View drawerView) {
                 frameLayout.setVisibility(View.VISIBLE);
@@ -117,7 +121,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         drawerToggle.syncState();
         View header = navigationView.getHeaderView(0);
         user =  header.findViewById(R.id.info);
+        img = findViewById(R.id.user_image);
         user.setText(user.getText() + "  " + getIntent().getExtras().getString("user") + "\n");
+        try {
+            Bitmap mIcon1 = BitmapFactory.decodeStream(LoginActivity.user.getImage().openConnection().getInputStream());
+            img.setImageBitmap(mIcon1);
+        }catch (IOException e){}
     }
 
     private void SetBottomNavigator() {
@@ -151,10 +160,5 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.commit();
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        closeDrawer();
-        return super.dispatchTouchEvent(ev);
-    }
 }
 

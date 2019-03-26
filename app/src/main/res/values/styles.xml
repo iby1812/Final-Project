@@ -7,6 +7,7 @@
         <item name="windowActionBar">false</item>
         <item name="android:navigationBarColor">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:listDivider">@android:color/white</item>
 
     </style>
 

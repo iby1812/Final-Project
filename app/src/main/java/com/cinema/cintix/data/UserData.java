@@ -1,17 +1,28 @@
 package com.cinema.cintix.data;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class UserData {
     String id;
     String name;
     ArrayList<String> friends;
+    URL image;
 
     public UserData(){
         name="";
         id="";
+        image=null;
     }
     public String getName() {
         return name;
+    }
+
+    public URL getImage() {
+        return image;
+    }
+
+    public void setImage(URL image) {
+        this.image = image;
     }
 
     public String getId() {

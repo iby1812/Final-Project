@@ -17,4 +17,9 @@
         android:textStyle="bold"
         android:text="@string/hello_user"
         android:textColor="@android:color/white"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        />
 </RelativeLayout>
