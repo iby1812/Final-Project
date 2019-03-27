@@ -1,40 +1,28 @@
 package com.cinema.cintix;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.RequestManager;
-import com.cinema.cintix.bottomnavigation.QuickOrder;
-import com.cinema.cintix.bottomnavigation.RegularOrder;
-import com.cinema.cintix.bottomnavigation.SmartOrder;
-import com.cinema.cintix.startingapp.LoginActivity;
-import com.facebook.Profile;
+import com.cinema.cintix.bottom_navigation.QuickOrder;
+import com.cinema.cintix.bottom_navigation.RegularOrder;
+import com.cinema.cintix.bottom_navigation.SmartOrder;
+import com.cinema.cintix.data.Movie;
+import com.cinema.cintix.data.UserData;
+import com.cinema.cintix.fetch_movies_data.NetworkUtils;
+import com.cinema.cintix.starting_app.LoginActivity;
 import com.facebook.login.LoginManager;
-import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
+import java.util.ArrayList;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -52,14 +40,20 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private QuickOrder quickOrder = new QuickOrder();
     private RegularOrder regularOrder = new RegularOrder();
     private SmartOrder smartOrder = new SmartOrder();
-
+    private ProgressBar progressBar;
+    private  String popularMoviesURL;
+    private static ArrayList<Movie> popularList;
+    private static int page=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page_activity);
+        progressBar=findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
         SetToolbar();
         SetBottomNavigator();
         SetFragment(regularOrder);
+        new FetchMovies().execute();
     }
 
 
@@ -134,20 +128,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-
         View header = navigationView.getHeaderView(0);
         user = header.findViewById(R.id.info);
         profilePictureView = header.findViewById(R.id.user_image);
-        user.setText(user.getText() + "  " + getIntent().getExtras().getString("user") + "\n");
-        String imageUri = getIntent().getStringExtra("url");
+        UserData userData = getIntent().getParcelableExtra("user");
+        user.setText(user.getText() + "  " + userData.getName() + "\n");
+        String imageUri = userData.getImage();
         Picasso.get().load(imageUri).into(profilePictureView);
-        //BitmapDrawable drawable = (BitmapDrawable) profilePictureView.getDrawableState();
-        //Bitmap bitmap = drawable.getBitmap();
-        /*ImageView fbImage = ( ( ImageView)profilePictureView.getChildAt( 0));
-        Bitmap    bitmap  = ( ( BitmapDrawable) fbImage.getDrawable()).getBitmap();
-        circleImageView.setImageBitmap(bitmap);*/
-
-
     }
 
     private void SetBottomNavigator() {
@@ -180,6 +167,35 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.replace(R.id.frame, frag);
         fragmentTransaction.commit();
     }
+    //AsyncTask
+    public class FetchMovies extends AsyncTask<Void,Void,Void> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            page++;
+            popularMoviesURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=bffac436c406ffac0c7b2bbc005cfc16&page="+page;
+            popularList = new ArrayList<>();
+            try {
+                if(NetworkUtils.networkStatus(HomePage.this)){
+                        popularList.addAll(NetworkUtils.fetchData(popularMoviesURL));
+                    }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void  s) {
+            super.onPostExecute(s);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
 }
 

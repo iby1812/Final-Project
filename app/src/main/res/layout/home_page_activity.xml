@@ -27,7 +27,7 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <com.cinema.cintix.startingapp.MyDrawerLayout
+    <com.cinema.cintix.starting_app.MyDrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,21 +39,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginLeft="-64dp"
             app:headerLayout="@layout/action_bar_draw"
             app:itemTextColor="@android:color/white"
             app:itemIconTint="@android:color/white"
             app:menu="@menu/action_bar"
-            android:background="@color/white_alpha"
+            android:background="@drawable/border_set"
             android:theme="@style/AppTheme" />
-    </com.cinema.cintix.startingapp.MyDrawerLayout>
+    </com.cinema.cintix.starting_app.MyDrawerLayout>
 
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_nav"
-        android:layout_below="@+id/toolbar"></FrameLayout>
+        android:layout_below="@+id/toolbar">
+    </FrameLayout>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -64,5 +64,22 @@
         app:itemTextAppearanceActive="@style/TextStyleBNV"
         app:itemTextAppearanceInactive="@style/txtnav"
         app:itemTextColor="@drawable/bottom_navigation_colors"
-        app:menu="@menu/bottom_navigator"></com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:menu="@menu/bottom_navigator">
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"/>
+        <!--app:layout_constraintBottom_toBottomOf="@+id/pop_movies_grid"
+        app:layout_constraintEnd_toEndOf="@+id/pop_movies_grid"
+        app:layout_constraintTop_toTopOf="@+id/pop_movies_grid"/>-->
 </RelativeLayout>

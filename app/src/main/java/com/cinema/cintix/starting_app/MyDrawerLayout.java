@@ -1,4 +1,4 @@
-package com.cinema.cintix.startingapp;
+package com.cinema.cintix.starting_app;
 
 import android.content.Context;
 import android.util.AttributeSet;

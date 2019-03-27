@@ -1,12 +1,8 @@
-package com.cinema.cintix.startingapp;
+package com.cinema.cintix.starting_app;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 
 import com.cinema.cintix.HomePage;
 import com.cinema.cintix.R;
@@ -15,12 +11,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.LoggingBehavior;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -29,16 +21,11 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collections;
 
 import androidx.appcompat.app.AppCompatActivity;
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.facebook.login.LoginBehavior.DEVICE_AUTH;
 
 public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
@@ -100,16 +87,12 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             user.setName(object.getString("name"));
                             user.setId(object.getString("id"));
+                            user.setImage("https://graph.facebook.com/" + user.getId() + "/picture?type=normal");
                             Intent i = new Intent(LoginActivity.this, HomePage.class);
-                            user.setImage(new URL("https://graph.facebook.com/" + user.getId() + "/picture?type=normal"));
-                            i.putExtra("user", user.getName());
-                            i.putExtra("id", user.getId());
-                            i.putExtra("url",user.getImage().toString());
+                            i.putExtra("user", user);
                             startActivity(i);
                             finish();
                         } catch (JSONException e) {
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
                         }
                     }
                 });

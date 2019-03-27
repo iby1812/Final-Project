@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         android:supportsRtl="true">
         <!--welcome page-->
-        <activity android:name=".startingapp.SplashActivity">
+        <activity android:name=".starting_app.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,7 +21,7 @@
         <!--home page-->
         <activity android:name=".HomePage" />
         <!--login with facebook-->
-        <activity android:name=".startingapp.LoginActivity" />
+        <activity android:name=".starting_app.LoginActivity" />
 
         <!-- Facebook -->
         <meta-data

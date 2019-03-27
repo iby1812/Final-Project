@@ -1,4 +1,4 @@
-package com.cinema.cintix.bottomnavigation;
+package com.cinema.cintix.bottom_navigation;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
