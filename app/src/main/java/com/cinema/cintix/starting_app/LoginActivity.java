@@ -3,8 +3,9 @@ package com.cinema.cintix.starting_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
-import com.cinema.cintix.HomePage;
+import com.cinema.cintix.home_screen.HomePage;
 import com.cinema.cintix.R;
 import com.cinema.cintix.data.UserData;
 import com.facebook.AccessToken;
@@ -21,8 +22,6 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collections;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
         initFacebookLoginButton();

@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layoutDirection="rtl"
-        android:minHeight="?attr/actionBarSize">
+        android:minHeight="?attr/actionBarSize"
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -64,7 +65,8 @@
         app:itemTextAppearanceActive="@style/TextStyleBNV"
         app:itemTextAppearanceInactive="@style/txtnav"
         app:itemTextColor="@drawable/bottom_navigation_colors"
-        app:menu="@menu/bottom_navigator">
+        app:menu="@menu/bottom_navigator"
+        android:layout_marginBottom="40dp">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <ProgressBar
