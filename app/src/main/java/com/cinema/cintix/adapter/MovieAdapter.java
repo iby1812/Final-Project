@@ -1,4 +1,4 @@
-package com.cinema.cintix.adapters;
+package com.cinema.cintix.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -45,22 +45,21 @@ public class MovieAdapter extends PagerAdapter {
         return null;
     }
 
-    @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
         layoutInflater=layoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.movie_item,container,false);
         ImageView imgmovie;
         TextView title,summary;
-        imgmovie=view.findViewById(R.id.user_image);
+        imgmovie=view.findViewById(R.id.movie_image);
         title=view.findViewById(R.id.movie_name);
         summary=view.findViewById(R.id.movie_summary);
-        imgmovie.setScaleType(ImageView.ScaleType.FIT_XY);
-        imgmovie.setAdjustViewBounds(true);
         Picasso.get().load(MOVIE_BASE_URL + list.get(position).getPosterPath())
                 .into(imgmovie);
         title.setText(list.get(position).getOriginalTitle());
         summary.setText(list.get(position).getOverview());
+        imgmovie.setScaleType(ImageView.ScaleType.FIT_XY);
+        imgmovie.setAdjustViewBounds(true);
         container.addView(view,0);
         return view;
     }

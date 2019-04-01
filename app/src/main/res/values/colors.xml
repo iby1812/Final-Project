@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colortoolsbar">#B55F94FF</color>
     <color name="white_alpha">#561C92D2</color>
+<color name="transparent">#00111111</color>
 </resources>

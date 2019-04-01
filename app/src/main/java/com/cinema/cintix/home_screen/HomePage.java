@@ -42,7 +42,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private SmartOrder smartOrder = new SmartOrder();
     ProgressBar progressBar;
     String moviesURL;
-    static ArrayList<Movie> moviesList;
+    static ArrayList<Movie> moviesList=new ArrayList<>();
     static int page=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +53,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         progressBar.setVisibility(View.INVISIBLE);
         SetToolbar();
         SetBottomNavigator();
-        SetFragment(regularOrder);
         new FetchMovies().execute();
+
     }
 
 
@@ -180,11 +180,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         @Override
         protected Void doInBackground(Void... voids) {
             page++;
-            moviesURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=bffac436c406ffac0c7b2bbc005cfc16&page="+page;
-            moviesList = new ArrayList<>();
+            moviesURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=bffac436c406ffac0c7b2bbc005cfc16";//&page=+page
             try {
                 if(NetworkUtils.networkStatus(HomePage.this)){
                         moviesList.addAll(NetworkUtils.fetchData(moviesURL));
+                        SetFragment(regularOrder);
                     }
             } catch (IOException e){
                 e.printStackTrace();

@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="actionBarItemBackground">@drawable/background_color</item>
+        <item name="android:windowBackground">@drawable/background_color</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:navigationBarColor">@android:color/white</item>
