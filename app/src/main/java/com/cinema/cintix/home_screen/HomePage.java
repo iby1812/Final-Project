@@ -1,6 +1,7 @@
 package com.cinema.cintix.home_screen;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -99,6 +100,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     private void SetToolbar() {
         Toolbar mToolbar = findViewById(R.id.toolbar);
+        mToolbar.setTitle("");
         NavigationView navigationView = findViewById(R.id.navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
         setSupportActionBar(mToolbar);
@@ -107,27 +109,29 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                /*if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     frameLayout.setVisibility(View.VISIBLE);
                 } else {
                     frameLayout.setVisibility(View.GONE);
-                }
+                }*/
                 super.onDrawerSlide(drawerView, slideOffset);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                frameLayout.setVisibility(View.VISIBLE);
+                //frameLayout.setVisibility(View.VISIBLE);
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                frameLayout.setVisibility(View.GONE);
+                //frameLayout.setVisibility(View.GONE);
                 super.onDrawerOpened(drawerView);
             }
         };
         drawerLayout.addDrawerListener(drawerToggle);
+        int color =drawerLayout.getSolidColor();
+        drawerLayout.bringToFront();
         drawerToggle.syncState();
         View header = navigationView.getHeaderView(0);
         user = header.findViewById(R.id.info);
@@ -180,7 +184,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         @Override
         protected Void doInBackground(Void... voids) {
             page++;
-            moviesURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=bffac436c406ffac0c7b2bbc005cfc16";//&page=+page
+            moviesURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=bffac436c406ffac0c7b2bbc005cfc16&page="+page;
             try {
                 if(NetworkUtils.networkStatus(HomePage.this)){
                         moviesList.addAll(NetworkUtils.fetchData(moviesURL));
@@ -194,6 +198,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         @Override
         protected void onPostExecute(Void  s) {
+            page++;
+            new FetchMovies().execute();
             super.onPostExecute(s);
             progressBar.setVisibility(View.INVISIBLE);
         }

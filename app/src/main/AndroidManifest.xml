@@ -21,7 +21,7 @@
         </activity>
         <!--home page-->
         <activity android:name=".home_screen.HomePage"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" android:theme="@style/AppTheme"/>
         <!--login with facebook-->
         <activity android:name=".starting_app.LoginActivity"
             android:screenOrientation="portrait"/>

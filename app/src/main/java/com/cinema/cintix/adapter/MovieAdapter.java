@@ -12,6 +12,7 @@ import com.cinema.cintix.data.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -19,15 +20,13 @@ public class MovieAdapter extends PagerAdapter {
 
     private static final String TAG = MovieAdapter.class.getSimpleName();
 
-    private Context context;
     private ArrayList<Movie> list;
-    public static final String MOVIE_BASE_URL="https://image.tmdb.org/t/p/w185";
-    private LayoutInflater layoutInflater;
+    public static final String MOVIE_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
-    public MovieAdapter(Context context, ArrayList<Movie> movieList) {
-        this.context = context;
+    public MovieAdapter(ArrayList<Movie> movieList) {
         this.list = movieList;
     }
+
     @Override
     public int getCount() {
         return list.size();
@@ -46,21 +45,21 @@ public class MovieAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater=layoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.movie_item,container,false);
-        ImageView imgmovie;
-        TextView title,summary;
-        imgmovie=view.findViewById(R.id.movie_image);
-        title=view.findViewById(R.id.movie_name);
-        summary=view.findViewById(R.id.movie_summary);
-        Picasso.get().load(MOVIE_BASE_URL + list.get(position).getPosterPath())
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.movie_item, container, false);
+
+        Movie movie = list.get(position);
+
+        ImageView imgmovie = view.findViewById(R.id.movie_image);
+        Picasso.get()
+                .load(MOVIE_BASE_URL + movie.getPosterPath())
                 .into(imgmovie);
-        title.setText(list.get(position).getOriginalTitle());
-        summary.setText(list.get(position).getOverview());
+
         imgmovie.setScaleType(ImageView.ScaleType.FIT_XY);
         imgmovie.setAdjustViewBounds(true);
-        container.addView(view,0);
+
+        container.addView(view, 0);
+
         return view;
     }
 
@@ -71,6 +70,7 @@ public class MovieAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-       container.removeView((View)object);
+        container.removeView((View) object);
     }
+
 }
