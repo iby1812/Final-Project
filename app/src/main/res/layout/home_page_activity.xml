@@ -14,6 +14,7 @@
         android:layoutDirection="rtl"
         android:minHeight="?attr/actionBarSize"
         android:layout_marginTop="15dp"
+        android:background="@drawable/toolbar_background"
         >
 
         <TextView
@@ -28,26 +29,6 @@
             android:textColor="@android:color/white" />
     </androidx.appcompat.widget.Toolbar>
 
-
-    <com.cinema.cintix.starting_app.MyDrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        tools:openDrawer="right">
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            app:headerLayout="@layout/action_bar_draw"
-            app:itemTextColor="@android:color/white"
-            app:itemIconTint="@android:color/white"
-            app:menu="@menu/action_bar"
-            android:background="@drawable/border_set"
-            android:theme="@style/AppTheme" />
-    </com.cinema.cintix.starting_app.MyDrawerLayout>
 
     <FrameLayout
         android:id="@+id/frame"
@@ -86,4 +67,26 @@
         <!--app:layout_constraintBottom_toBottomOf="@+id/pop_movies_grid"
         app:layout_constraintEnd_toEndOf="@+id/pop_movies_grid"
         app:layout_constraintTop_toTopOf="@+id/pop_movies_grid"/>-->
+
+    <com.cinema.cintix.starting_app.MyDrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        tools:openDrawer="right"
+        android:layout_marginTop="-1dp"
+        >
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            app:headerLayout="@layout/action_bar_draw"
+            app:itemTextColor="@android:color/white"
+            app:itemIconTint="@android:color/white"
+            app:menu="@menu/action_bar"
+            android:background="@drawable/border_set"
+            android:theme="@style/AppTheme" />
+    </com.cinema.cintix.starting_app.MyDrawerLayout>
 </RelativeLayout>

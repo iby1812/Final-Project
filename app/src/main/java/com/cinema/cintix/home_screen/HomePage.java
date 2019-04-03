@@ -2,6 +2,7 @@ package com.cinema.cintix.home_screen;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -129,8 +130,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 super.onDrawerOpened(drawerView);
             }
         };
+        //set drawer color
+        navigationView.setBackgroundResource(R.drawable.border_set);
         drawerLayout.addDrawerListener(drawerToggle);
-        int color =drawerLayout.getSolidColor();
         drawerLayout.bringToFront();
         drawerToggle.syncState();
         View header = navigationView.getHeaderView(0);
