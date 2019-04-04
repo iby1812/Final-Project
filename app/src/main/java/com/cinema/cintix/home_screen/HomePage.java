@@ -117,23 +117,16 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                /*if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-                    frameLayout.setVisibility(View.VISIBLE);
-                } else {
-                    frameLayout.setVisibility(View.GONE);
-                }*/
                 super.onDrawerSlide(drawerView, slideOffset);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                //frameLayout.setVisibility(View.VISIBLE);
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                //frameLayout.setVisibility(View.GONE);
                 super.onDrawerOpened(drawerView);
             }
         };

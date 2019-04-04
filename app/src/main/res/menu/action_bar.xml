@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/line"><item android:enabled="false" android:title=""></item></group>
     <group
         android:id="@+id/menu1">
         <item
@@ -30,4 +31,6 @@
             android:textStyle="bold"
             android:title="@string/log_out" />
     </group>
+    <group android:id="@+id/line2"><item android:enabled="false" android:title=""></item></group>
+
 </menu>

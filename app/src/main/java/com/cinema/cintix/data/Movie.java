@@ -1,18 +1,49 @@
 package com.cinema.cintix.data;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class Movie implements Serializable {
+
+    @SerializedName("id")
+    @Expose
     private int id;
+
+    @SerializedName("vote_average")
+    @Expose
     private  int voteAverage;
     private int voteCount;
     private String originalTitle;
+
+    @SerializedName("title")
+    @Expose
     private String title;
     private double popularity;
     private String backdropPath;
     private String overview;
+
+    @SerializedName("release_date")
+    @Expose
     private String releaseDate;
+
+    @SerializedName("poster_path")
+    @Expose
     private String posterPath;
+
+    @SerializedName("genre_ids")
+    @Expose
+    private List<Integer> genreIds;
+
+    public List<Integer> getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
+    }
 
     public int getId() {
         return id;

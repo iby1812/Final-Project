@@ -64,9 +64,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"/>
-        <!--app:layout_constraintBottom_toBottomOf="@+id/pop_movies_grid"
-        app:layout_constraintEnd_toEndOf="@+id/pop_movies_grid"
-        app:layout_constraintTop_toTopOf="@+id/pop_movies_grid"/>-->
+
 
     <com.cinema.cintix.starting_app.MyDrawerLayout
         android:id="@+id/drawer_layout"
@@ -80,7 +78,7 @@
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="right"
             app:headerLayout="@layout/action_bar_draw"
             app:itemTextColor="@android:color/white"
