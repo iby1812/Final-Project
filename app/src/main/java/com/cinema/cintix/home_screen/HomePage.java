@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,9 +54,15 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(R.layout.home_page_activity);
         progressBar=findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
+        new FetchMovies().execute();
         SetToolbar();
         SetBottomNavigator();
-        new FetchMovies().execute();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SetFragment(regularOrder);
+            }
+        },1000);
 
     }
 
@@ -189,14 +196,14 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             moviesURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=bffac436c406ffac0c7b2bbc005cfc16&page="+page;
             try {
                 if(NetworkUtils.networkStatus(HomePage.this)){
-                        moviesList.addAll(NetworkUtils.fetchData(moviesURL));
-                        SetFragment(regularOrder);
+                        moviesList=NetworkUtils.fetchData(moviesURL);
                     }
             } catch (IOException e){
                 e.printStackTrace();
             }
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void  s) {
