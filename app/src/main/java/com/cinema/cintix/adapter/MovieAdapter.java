@@ -1,17 +1,18 @@
 package com.cinema.cintix.adapter;
 
-import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.cinema.cintix.R;
-import com.cinema.cintix.data.Movie;
+import com.cinema.cintix.fetch_movies_data.Genre;
+import com.cinema.cintix.fetch_movies_data.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -20,20 +21,23 @@ public class MovieAdapter extends PagerAdapter {
 
     private static final String TAG = MovieAdapter.class.getSimpleName();
 
-    private ArrayList<Movie> list;
+   // private List<Genre> allGenres;
+    private List<Movie> movies;
+
     public static final String MOVIE_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
-    public MovieAdapter(ArrayList<Movie> movieList) {
-        this.list = movieList;
+    public MovieAdapter(List<Movie> movieList) {
+        this.movies = movieList;
+        //his.allGenres = allGenres;
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return movies.size();
     }
 
     public Movie getItem(int position) {
-        return list.get(position);
+        return movies.get(position);
     }
 
     public long getItemId(int position) {
@@ -48,7 +52,7 @@ public class MovieAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.movie_item, container, false);
 
-        Movie movie = list.get(position);
+        Movie movie = movies.get(position);
 
         ImageView imgmovie = view.findViewById(R.id.movie_image);
         Picasso.get()
@@ -72,5 +76,16 @@ public class MovieAdapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
-
+   /* private String getGenres(List<Integer> genreIds) {
+        List<String> movieGenres = new ArrayList<>();
+        for (Integer genreId : genreIds) {
+            for (Genre genre : allGenres) {
+                if (genre.getId() == genreId) {
+                    movieGenres.add(genre.getName());
+                    break;
+                }
+            }
+        }
+        return TextUtils.join(", ", movieGenres);
+    }*/
 }

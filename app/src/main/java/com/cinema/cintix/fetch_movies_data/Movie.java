@@ -1,4 +1,4 @@
-package com.cinema.cintix.data;
+package com.cinema.cintix.fetch_movies_data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,14 +14,20 @@ public class Movie implements Serializable {
 
     @SerializedName("vote_average")
     @Expose
-    private  int voteAverage;
+    private  double voteAverage;
     private int voteCount;
+
+    @SerializedName("originalTitle")
+    @Expose
     private String originalTitle;
 
     @SerializedName("title")
     @Expose
     private String title;
     private double popularity;
+
+    @SerializedName("backdropPath")
+    @Expose
     private String backdropPath;
     private String overview;
 
@@ -53,11 +59,11 @@ public class Movie implements Serializable {
         this.id = id;
     }
 
-    public int getVoteAverage() {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(int voteAverage) {
+    public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
     }
 

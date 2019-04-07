@@ -1,11 +1,8 @@
 package com.cinema.cintix.home_screen;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,17 +12,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cinema.cintix.R;
-import com.cinema.cintix.data.Movie;
+import com.cinema.cintix.adapter.MovieAdapter;
+import com.cinema.cintix.fetch_movies_data.Movie;
 import com.cinema.cintix.data.UserData;
-import com.cinema.cintix.fetch_movies_data.NetworkUtils;
+import com.cinema.cintix.fetch_movies_data.MoviesRepository;
+import com.cinema.cintix.fetch_movies_data.OnGetMoviesCallback;
 import com.cinema.cintix.starting_app.LoginActivity;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,27 +43,22 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private QuickOrder quickOrder = new QuickOrder();
     private RegularOrder regularOrder = new RegularOrder();
     private SmartOrder smartOrder = new SmartOrder();
+    static MovieAdapter adapter;
     ProgressBar progressBar;
-    String moviesURL;
-    static ArrayList<Movie> moviesList=new ArrayList<>();
-    static int page=0;
+    static List<Movie> moviesList = new ArrayList<>();
+    private MoviesRepository moviesRepository;
+    private boolean first=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page_activity);
-        progressBar=findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.INVISIBLE);
-        new FetchMovies().execute();
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
         SetToolbar();
         SetBottomNavigator();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                SetFragment(regularOrder);
-            }
-        },1000);
-
+        getMovies();
     }
 
 
@@ -174,37 +169,30 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.replace(R.id.frame, frag);
         fragmentTransaction.commit();
     }
-    //AsyncTask
-    public class FetchMovies extends AsyncTask<Void,Void,Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            page++;
-            moviesURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=bffac436c406ffac0c7b2bbc005cfc16&page="+page;
-            try {
-                if(NetworkUtils.networkStatus(HomePage.this)){
-                        moviesList=NetworkUtils.fetchData(moviesURL);
-                    }
-            } catch (IOException e){
-                e.printStackTrace();
+    private void getMovies() {
+        moviesRepository = MoviesRepository.getInstance();
+        moviesRepository.getMovies(new OnGetMoviesCallback() {
+            @Override
+            public void onSuccess(List<Movie> movies) {
+                progressBar.setVisibility(View.INVISIBLE);
+                moviesList.addAll(movies);
+                adapter = new MovieAdapter(moviesList);
+                adapter.notifyDataSetChanged();
+                if(first){
+                    SetFragment(regularOrder);
+                }
+                else{
+                    regularOrder.notifychange();
+                }
+                getMovies();
             }
-            return null;
-        }
 
+            @Override
+            public void onError() {
 
-        @Override
-        protected void onPostExecute(Void  s) {
-            page++;
-            new FetchMovies().execute();
-            super.onPostExecute(s);
-            progressBar.setVisibility(View.INVISIBLE);
-        }
+            }
+        });
     }
 }
 
