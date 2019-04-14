@@ -3,6 +3,7 @@ package com.cinema.cintix.home_screen;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +49,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     static List<Movie> moviesList = new ArrayList<>();
     private MoviesRepository moviesRepository;
     private boolean first=true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -172,27 +172,25 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     private void getMovies() {
         moviesRepository = MoviesRepository.getInstance();
-        moviesRepository.getMovies(new OnGetMoviesCallback() {
-            @Override
-            public void onSuccess(List<Movie> movies) {
-                progressBar.setVisibility(View.INVISIBLE);
-                moviesList.addAll(movies);
-                adapter = new MovieAdapter(moviesList);
-                adapter.notifyDataSetChanged();
-                if(first){
-                    SetFragment(regularOrder);
+        if (RegularOrder.fetchOk) {
+            moviesRepository.getMovies(new OnGetMoviesCallback() {
+                @Override
+                public void onSuccess(List<Movie> movies) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    moviesList.clear();
+                    moviesList.addAll(movies);
+                    if (first) {
+                        first = false;
+                        SetFragment(regularOrder);
+                    }
                 }
-                else{
-                    regularOrder.notifychange();
+
+                @Override
+                public void onError() {
+
                 }
-                getMovies();
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
+            });
+        }
     }
 }
 

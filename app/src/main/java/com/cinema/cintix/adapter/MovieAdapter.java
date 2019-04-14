@@ -30,7 +30,10 @@ public class MovieAdapter extends PagerAdapter {
         this.movies = movieList;
         //his.allGenres = allGenres;
     }
-
+    public  void addMovies(List<Movie> lst){
+        movies.clear();
+        movies.addAll(lst);
+    }
     @Override
     public int getCount() {
         return movies.size();

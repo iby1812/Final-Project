@@ -23,26 +23,32 @@ public class RegularOrder extends Fragment {
 
     MovieAdapter adapter;
     ViewPager viewPager;
-    private List<Movie> moviesList=new ArrayList<>();
+    public static int page = 0;
+    public static Boolean fetchOk = true;
+    //private List<Movie> moviesList=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        final View view =inflater.inflate(R.layout.regular_order, container, false);
-        moviesList.addAll( HomePage.moviesList);
-        adapter=HomePage.adapter;
-        viewPager=view.findViewById(R.id.view_pager);
+        final View view = inflater.inflate(R.layout.regular_order, container, false);
+        adapter = new MovieAdapter(HomePage.moviesList);
+        viewPager = view.findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
         viewPager.getAdapter().notifyDataSetChanged();
-        viewPager.setPadding(150,0,150,0);
-        setText(view,container,0);
+        viewPager.setPadding(150, 0, 150, 0);
+        setText(view, container, 0);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position % 20 == 0) {
+                    fetchOk=true;
+                    adapter.addMovies(HomePage.moviesList);
+                    viewPager.getAdapter().notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
-                setText(view,container,position);
+                setText(view, container, position);
             }
 
             @Override
@@ -52,17 +58,12 @@ public class RegularOrder extends Fragment {
         });
         return view;
     }
-    public void setText(View view,ViewGroup container,int position){
-        TextView title,summary;
-        title=view.findViewById(R.id.movie_name);
-        title.setText(moviesList.get(position).getTitle());
-        summary=view.findViewById(R.id.movie_summary);
-        summary.setText(moviesList.get(position).getOverview());
-    }
 
-    public void notifychange(){
-        moviesList.addAll( HomePage.moviesList);
-        adapter=HomePage.adapter;
-        viewPager.getAdapter().notifyDataSetChanged();
+    public void setText(View view, ViewGroup container, int position) {
+        TextView title, summary;
+        title = view.findViewById(R.id.movie_name);
+        title.setText(HomePage.moviesList.get(position).getTitle());
+        summary = view.findViewById(R.id.movie_summary);
+        summary.setText(HomePage.moviesList.get(position).getOverview());
     }
 }

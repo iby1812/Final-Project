@@ -2,6 +2,10 @@ package com.cinema.cintix.fetch_movies_data;
 
 
 
+import com.cinema.cintix.home_screen.RegularOrder;
+
+import java.util.logging.Handler;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,7 +18,6 @@ public class MoviesRepository {
     private static final String LANGUAGE = "en-US";
     private static final String ApiKey= "bffac436c406ffac0c7b2bbc005cfc16";
     private static MoviesRepository repository;
-    private int page=0;
     private TMDbApi api;
 
     private MoviesRepository(TMDbApi api) {
@@ -35,29 +38,34 @@ public class MoviesRepository {
     }
 
     public void getMovies(final OnGetMoviesCallback callback) {
-        page++;
-        api.getPopularMovies(ApiKey, LANGUAGE, page)
-                .enqueue(new Callback<MoviesResponse>() {
-            @Override
-            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                if (response.isSuccessful()) {
-                    MoviesResponse moviesResponse = response.body();
-                    if (moviesResponse != null && moviesResponse.getMovies() != null) {
-                        callback.onSuccess(moviesResponse.getMovies());
-                    } else {
-                        callback.onError();
-                    }
-                } else {
-                    callback.onError();
-                }
-            }
+       if(RegularOrder.fetchOk) {
+           RegularOrder.fetchOk=false;
+           RegularOrder.page++;
+           if (RegularOrder.page < 10) {
 
-            @Override
-            public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                callback.onError();
-            }
-        });
+               api.getPopularMovies(ApiKey, LANGUAGE, RegularOrder.page)
+                       .enqueue(new Callback<MoviesResponse>() {
+                           @Override
+                           public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                               if (response.isSuccessful()) {
+                                   MoviesResponse moviesResponse = response.body();
+                                   if (moviesResponse != null && moviesResponse.getMovies() != null) {
+                                       callback.onSuccess(moviesResponse.getMovies());
+                                   } else {
+                                       callback.onError();
+                                   }
+                               } else {
+                                   callback.onError();
+                               }
+                           }
 
+                           @Override
+                           public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                               callback.onError();
+                           }
+                       });
+           }
+       }
     }
 
     /*public void getGenres(final OnGetGenresCallback callback) {
