@@ -21,14 +21,14 @@ public class MovieAdapter extends PagerAdapter {
 
     private static final String TAG = MovieAdapter.class.getSimpleName();
 
-   // private List<Genre> allGenres;
+
     private List<Movie> movies;
 
     public static final String MOVIE_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
     public MovieAdapter(List<Movie> movieList) {
         this.movies = movieList;
-        //his.allGenres = allGenres;
+
     }
     public  void addMovies(List<Movie> lst){
         movies.clear();
@@ -79,16 +79,4 @@ public class MovieAdapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
-   /* private String getGenres(List<Integer> genreIds) {
-        List<String> movieGenres = new ArrayList<>();
-        for (Integer genreId : genreIds) {
-            for (Genre genre : allGenres) {
-                if (genre.getId() == genreId) {
-                    movieGenres.add(genre.getName());
-                    break;
-                }
-            }
-        }
-        return TextUtils.join(", ", movieGenres);
-    }*/
 }

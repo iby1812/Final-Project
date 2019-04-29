@@ -24,25 +24,24 @@ public class RegularOrder extends Fragment {
     MovieAdapter adapter;
     ViewPager viewPager;
     public static int page = 0;
-    public static Boolean fetchOk = true;
-    //private List<Movie> moviesList=new ArrayList<>();
+    private List<Movie> moviesList=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.regular_order, container, false);
-        adapter = new MovieAdapter(HomePage.moviesList);
+        moviesList.addAll(HomePage.moviesList);
+        adapter = new MovieAdapter(moviesList);
         viewPager = view.findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
-        viewPager.getAdapter().notifyDataSetChanged();
         viewPager.setPadding(150, 0, 150, 0);
         setText(view, container, 0);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position % 20 == 0) {
-                    fetchOk=true;
-                    adapter.addMovies(HomePage.moviesList);
-                    viewPager.getAdapter().notifyDataSetChanged();
+                if (position + 1 % 21 == 0) {
+                    moviesList.addAll(HomePage.moviesList);
+                    adapter = new MovieAdapter(moviesList);
+                    viewPager.setAdapter(adapter);
                 }
             }
 
@@ -65,5 +64,9 @@ public class RegularOrder extends Fragment {
         title.setText(HomePage.moviesList.get(position).getTitle());
         summary = view.findViewById(R.id.movie_summary);
         summary.setText(HomePage.moviesList.get(position).getOverview());
+    }
+
+    public static void notifypager(){
+
     }
 }
