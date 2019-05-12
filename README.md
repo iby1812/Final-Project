@@ -3,7 +3,6 @@
 
 ## 1. Overview
 CINTIX is a mobile movie ticketing app that lets you buy movie tickets, make movie plans with friends and get a VIP experience at the movie theater. Find all the latest new and upcoming movies, watch movie trailers, read reviews and browse movie showtimes directly from the app. 
-
 The application will do the job for you, choose the most recommended movies that suit you and select the best seats remaining in the hall automatically.
 
 ## 2. Functionality
@@ -26,9 +25,7 @@ CINTIX seats algorithm select for you the best seats in the cinema automatically
 The algorithm calculates for each seat the horizontal and vertical viewing angle  by distance from the screen.
 
 Using a calculation between the viewing angles and data we collected regarding viewing and seating recommendations, we created a complete mapping of the entire hall.
-
 The user will always be able to get the optimal 
-
 seat available.
 
 ## 4. Features
@@ -37,11 +34,14 @@ Sign in with Facebook, saving your favorites movies for AI experience.
 CINTIX would know you better and provide the most easy fast and comfort ordering.
 saving app progress with facebook user in database.
 
+<img height="300" src="https://github.com/iby1812/Final-Project/blob/master/Images/Main_page.png" />
 
 ### 90th minute
 For the spontanees among us:
 Last minute order feature, present for you filtered movies by displaying time up to 30 minutes and nearest cinemas by using phone location. 
 Using automataclly seats selection algorithm for fast ordering
+
+<img height="300" src="https://github.com/iby1812/Final-Project/blob/master/Images/Movie_page.png" />
 
 
 ## 5. Authors
