@@ -15,20 +15,17 @@
         android:minHeight="?attr/actionBarSize"
         android:layout_marginTop="15dp"
         android:background="@drawable/toolbar_background"
-        >
+        />
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="5dp"
-            android:text="@string/app_name"
-            android:textSize="30sp"
-            android:textStyle="bold|italic"
-            android:textColor="@android:color/white" />
-    </androidx.appcompat.widget.Toolbar>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="260dp"
+        android:layout_height="86dp"
+        android:layout_alignStart="@+id/toolbar"
+        android:layout_marginStart="151dp"
+        app:srcCompat="@drawable/app_logo"
+        android:contentDescription="TODO" />
 
     <FrameLayout
         android:id="@+id/frame"
@@ -87,4 +84,5 @@
             android:background="@drawable/border_set"
             android:theme="@style/AppTheme" />
     </com.cinema.cintix.starting_app.MyDrawerLayout>
+
 </RelativeLayout>
