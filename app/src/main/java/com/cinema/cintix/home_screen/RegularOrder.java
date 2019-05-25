@@ -29,6 +29,7 @@ public class RegularOrder extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.regular_order, container, false);
+        moviesList.clear();
         moviesList.addAll(HomePage.moviesList);
         adapter = new MovieAdapter(moviesList);
         viewPager = view.findViewById(R.id.view_pager);
@@ -38,17 +39,15 @@ public class RegularOrder extends Fragment {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position + 1 % 21 == 0) {
+                if ((position + 1) % 15 == 0) {
+                    moviesList.clear();
                     moviesList.addAll(HomePage.moviesList);
-                    adapter = new MovieAdapter(moviesList);
-                    viewPager.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onPageSelected(int position) {
-                setText(view, container, position);
-            }
+            public void onPageSelected(int position) { setText(view, container, position); }
 
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -66,7 +65,4 @@ public class RegularOrder extends Fragment {
         summary.setText(HomePage.moviesList.get(position).getOverview());
     }
 
-    public static void notifypager(){
-
-    }
 }

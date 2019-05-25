@@ -177,18 +177,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 public void onSuccess(List<Movie> movies) {
                     progressBar.setVisibility(View.INVISIBLE);
                     moviesList.addAll(movies);
+
                     if (first) {
                         first = false;
                         SetFragment(regularOrder);
                     }
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            getMovies();
-                            //TO DO notify function
-                            RegularOrder.notifypager();
-                        }
-                    },2000);
+                    getMovies();
                 }
 
                 @Override

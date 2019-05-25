@@ -38,27 +38,29 @@ public class MoviesRepository {
 
     public void getMovies(final OnGetMoviesCallback callback) {
         RegularOrder.page++;
-        api.getPopularMovies(ApiKey, LANGUAGE, RegularOrder.page)
-                .enqueue(new Callback<MoviesResponse>() {
-                    @Override
-                    public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                        if (response.isSuccessful()) {
-                            MoviesResponse moviesResponse = response.body();
-                            if (moviesResponse != null && moviesResponse.getMovies() != null) {
-                                callback.onSuccess(moviesResponse.getMovies());
+        if(RegularOrder.page <= 10) {
+            api.getPopularMovies(ApiKey, LANGUAGE, RegularOrder.page)
+                    .enqueue(new Callback<MoviesResponse>() {
+                        @Override
+                        public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                            if (response.isSuccessful()) {
+                                MoviesResponse moviesResponse = response.body();
+                                if (moviesResponse != null && moviesResponse.getMovies() != null) {
+                                    callback.onSuccess(moviesResponse.getMovies());
+                                } else {
+                                    callback.onError();
+                                }
                             } else {
                                 callback.onError();
                             }
-                        } else {
+                        }
+
+                        @Override
+                        public void onFailure(Call<MoviesResponse> call, Throwable t) {
                             callback.onError();
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                        callback.onError();
-                    }
-                });
+                    });
+        }
 
     }
 }
