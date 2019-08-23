@@ -1,9 +1,11 @@
 package com.cinema.cintix.home_screen;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cinema.cintix.R;
@@ -13,18 +15,18 @@ import com.cinema.cintix.fetch_movies_data.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 public class RegularOrder extends Fragment {
 
     MovieAdapter adapter;
     ViewPager viewPager;
+    Button btn;
     public static int page = 0;
-    private List<Movie> moviesList=new ArrayList<>();
+    private List<Movie> moviesList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -47,11 +49,25 @@ public class RegularOrder extends Fragment {
             }
 
             @Override
-            public void onPageSelected(int position) { setText(view, container, position); }
+            public void onPageSelected(int position) {
+                setText(view, container, position);
+            }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+        btn = view.findViewById(R.id.movie_order);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebMovieFragment fragment = new WebMovieFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         return view;
@@ -64,5 +80,4 @@ public class RegularOrder extends Fragment {
         summary = view.findViewById(R.id.movie_summary);
         summary.setText(HomePage.moviesList.get(position).getOverview());
     }
-
 }
