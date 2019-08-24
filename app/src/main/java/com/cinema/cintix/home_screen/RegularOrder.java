@@ -27,6 +27,7 @@ public class RegularOrder extends Fragment {
     Button btn;
     public static int page = 0;
     private List<Movie> moviesList = new ArrayList<>();
+    String movie_name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +64,9 @@ public class RegularOrder extends Fragment {
             @Override
             public void onClick(View v) {
                 WebMovieFragment fragment = new WebMovieFragment();
+                Bundle b = new Bundle();
+                b.putString("movie_name",movie_name);
+                fragment.setArguments(b);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frame, fragment);
@@ -73,10 +77,11 @@ public class RegularOrder extends Fragment {
         return view;
     }
 
-    public void setText(View view, ViewGroup container, int position) {
+    private void setText(View view, ViewGroup container, int position) {
         TextView title, summary;
         title = view.findViewById(R.id.movie_name);
         title.setText(HomePage.moviesList.get(position).getTitle());
+        movie_name = title.getText().toString().toLowerCase().replace(' ','-');
         summary = view.findViewById(R.id.movie_summary);
         summary.setText(HomePage.moviesList.get(position).getOverview());
     }
